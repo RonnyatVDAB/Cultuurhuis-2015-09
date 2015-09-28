@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="voorstellingen")
-public class Voorstellingen implements Serializable {
+public class Voorstelling implements Serializable {
 	private static final long serialVersionUID=1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
