@@ -1,19 +1,14 @@
 package be.vdab.dao;
 
-import java.util.ArrayList;
-
-import javax.persistence.EntityManager;
-
 import be.vdab.entities.Genre;
-import be.vdab.filters.JPAFilter;
 
-public class GenreDAO {
+public class GenreDAO extends AbstractDAO {
 	
-	public Genre read(long id, EntityManager entityManager) {
-		return entityManager.find(Genre.class, id);
+	public Genre read(long id) {
+		return getEntityManager().find(Genre.class, id);
 	}
 	
-	public ArrayList<Genre> findAllGenres() {
-		
-	}
+	public Iterable<Genre> findAllGenres() {
+		return getEntityManager().createQuery("select g from Genre g", Genre.class).getResultList();
+	} 
 } 

@@ -8,6 +8,7 @@
         <non-jta-data-source>
             java:/comp/env/jdbc/cultuurhuis
         </non-jta-data-source>
+        <class>be.vdab.entities.Genre</class>
         <properties>
             <property name='hibernate.show_sql' value='true'/>
             <property name='hibernate.format_sql' value='true'/>
