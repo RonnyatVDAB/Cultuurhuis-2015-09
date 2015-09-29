@@ -10,6 +10,18 @@ body {
 	font-family: sans-serif;
 }
 
+/*---------------- */
+/* 	Header styling */
+/*---------------- */
+
+h1.indexpagina {
+	background-image: url(../images/voorstellingen.png);
+	background-repeat: no-repeat;
+	background-position: 15em 0em;
+	padding-top: 2em;
+}
+
+
 /*-------------- */
 /* 	Menu styling */
 /*-------------- */
