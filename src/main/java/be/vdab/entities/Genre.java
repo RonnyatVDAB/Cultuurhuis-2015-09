@@ -1,11 +1,13 @@
 package be.vdab.entities;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,9 +18,17 @@ public class Genre implements Serializable {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private long id;
-	private String naam; 
+	private String naam;
+	@OneToMany(mappedBy = "voorstellingen")
+	private Set<Voorstelling> voorstellingen;
 	
-    public static long getSerialversionuid() {
+    public Genre() {}
+	
+	public Genre(String naam) {
+		setNaam(naam);
+	}
+
+	public static long getSerialversionuid() {
 	return serialVersionUID;
 	}
 	
@@ -28,6 +38,17 @@ public class Genre implements Serializable {
 	
 	public String getNaam() {
 		return naam;
+	}
+
+	public void setNaam(String naam) {
+		if (!isNaamValid(naam)) {
+			throw new IllegalArgumentException();
+		}
+    	this.naam = naam;
+	}
+	
+	private static boolean isNaamValid(String naam) { 
+		return naam != null && ! naam.isEmpty();
 	}
 	
 }
