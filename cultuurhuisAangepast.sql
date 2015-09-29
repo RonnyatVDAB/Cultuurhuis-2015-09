@@ -83,13 +83,15 @@ DROP TABLE IF EXISTS `opvoeringen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `opvoeringen` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `voorstellingsid` int(11) DEFAULT NULL,
+  `id` int(11) unsigned NOT NULL,
   `datum` datetime NOT NULL,
   `prijs` decimal(10,2) NOT NULL,
   `vrijeplaatsen` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+  `voorstellingsid` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_opvoeringen_voorstellingsid_idx` (`voorstellingsid`),
+  CONSTRAINT `FK_opvoeringen_voorstellingsid` FOREIGN KEY (`voorstellingsid`) REFERENCES `voorstellingen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +100,6 @@ CREATE TABLE `opvoeringen` (
 
 LOCK TABLES `opvoeringen` WRITE;
 /*!40000 ALTER TABLE `opvoeringen` DISABLE KEYS */;
-INSERT INTO `opvoeringen` VALUES (1,NULL,'2015-10-29 20:00:00',5.00,0),(2,NULL,'2015-10-30 20:00:00',7.00,141),(3,NULL,'2015-10-31 20:00:00',6.00,200),(4,NULL,'2015-11-01 20:00:00',7.50,180),(5,NULL,'2015-11-02 20:00:00',7.00,150),(6,NULL,'2015-11-03 20:00:00',6.00,200),(7,NULL,'2015-11-04 20:00:00',7.00,170),(8,NULL,'2015-11-05 20:00:00',5.00,200),(9,NULL,'2015-11-06 20:00:00',8.00,180),(10,NULL,'2015-11-07 20:00:00',7.50,198),(11,NULL,'2015-11-08 20:00:00',4.00,168),(12,NULL,'2015-11-09 20:00:00',6.00,200),(13,NULL,'2015-11-10 20:00:00',6.00,198),(14,NULL,'2015-11-11 20:00:00',6.50,200),(15,NULL,'2015-11-12 20:00:00',5.50,180),(16,NULL,'2015-11-13 20:00:00',8.00,198),(17,NULL,'2015-11-14 20:00:00',7.00,200),(18,NULL,'2015-11-15 20:00:00',6.00,180),(19,NULL,'2015-11-16 20:00:00',8.00,200),(20,NULL,'2015-11-17 20:00:00',7.00,190),(21,NULL,'2015-11-18 20:00:00',5.00,196),(22,NULL,'2015-11-19 20:00:00',6.00,94),(23,NULL,'2015-11-20 20:00:00',6.00,0),(24,NULL,'2015-11-21 20:00:00',7.00,196),(25,NULL,'2015-11-22 20:00:00',8.00,200),(26,NULL,'2015-11-23 20:00:00',7.25,190),(27,NULL,'2015-11-24 20:00:00',5.00,200),(28,NULL,'2015-11-25 20:00:00',6.00,190),(29,NULL,'2015-11-26 20:00:00',8.00,160),(30,NULL,'2015-11-27 20:00:00',7.00,200),(31,NULL,'2015-11-28 20:00:00',6.00,180),(32,NULL,'2015-11-29 20:00:00',5.50,200),(33,NULL,'2015-11-30 20:00:00',6.00,170),(34,NULL,'2015-12-01 20:00:00',7.00,198),(35,NULL,'2015-12-03 20:00:00',6.00,160),(36,NULL,'2015-12-04 20:00:00',7.00,180),(37,NULL,'2015-12-05 20:00:00',6.00,8),(38,NULL,'2015-12-06 20:00:00',7.00,100);
 /*!40000 ALTER TABLE `opvoeringen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,14 +113,13 @@ DROP TABLE IF EXISTS `reservaties`;
 CREATE TABLE `reservaties` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `klantid` int(11) unsigned NOT NULL,
-  `voorstellingsid` int(11) unsigned NOT NULL,
   `plaatsen` int(11) unsigned NOT NULL,
   `opvoeringsid` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_reservaties_klanten` (`klantid`),
-  KEY `FK_reservaties_voorstellingen` (`voorstellingsid`),
+  KEY `FK_reservaties_opvoeringsid_idx` (`opvoeringsid`),
   CONSTRAINT `FK_reservaties_klanten` FOREIGN KEY (`klantid`) REFERENCES `klanten` (`id`),
-  CONSTRAINT `FK_reservaties_voorstellingen` FOREIGN KEY (`voorstellingsid`) REFERENCES `voorstellingen` (`id`)
+  CONSTRAINT `FK_reservaties_opvoeringsid` FOREIGN KEY (`opvoeringsid`) REFERENCES `opvoeringen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -168,10 +168,14 @@ DROP TABLE IF EXISTS `winkelmandjes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `winkelmandjes` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `klantid` int(11) unsigned NOT NULL,
   `opvoeringsid` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FK_reservaties_klanten` (`klantid`),
+  KEY `FK_reservaties_opvoeringsid_idx` (`opvoeringsid`),
+  CONSTRAINT `FK_winkelmandjes_klantid` FOREIGN KEY (`klantid`) REFERENCES `klanten` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_winkelmandjes_opvoeringsid` FOREIGN KEY (`opvoeringsid`) REFERENCES `opvoeringen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -193,4 +197,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-28 15:22:23
+-- Dump completed on 2015-09-29 12:02:33
