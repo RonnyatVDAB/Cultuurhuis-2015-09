@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import be.vdab.entities.Genre;
+import be.vdab.services.GenreService;
+
 /**
  * Servlet implementation class IndexServlet
  */
@@ -16,9 +19,12 @@ public class IndexServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private static final String VIEW = "/WEB-INF/JSP/index.jsp";
+	private final transient GenreService genreservice = new GenreService();
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Iterable<Genre> genres = genreservice.findAllGenres();
+		request.setAttribute("genres", genres);
 		request.getRequestDispatcher(VIEW).forward(request, response); 
 	}
 
