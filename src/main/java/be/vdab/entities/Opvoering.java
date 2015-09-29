@@ -1,9 +1,6 @@
 package be.vdab.entities;
 
-import sun.util.resources.cldr.aa.CalendarData_aa_ER;
-
 import javax.persistence.*;
-import javax.persistence.criteria.Fetch;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +69,12 @@ public class Opvoering {
 		if (isVoorstellingValid(voorstelling)) this.voorstelling = voorstelling;
 	}
 
+	/**
+	 * Checks if Voorstelling is not null
+	 * @param voorstelling Voorstelling object
+	 * @return Returns true if not null
+	 * @throws NullPointerException If Voorstelling equals null
+	 */
 	public static boolean isVoorstellingValid(Voorstelling voorstelling) {
 		if (voorstelling != null) {
 			return true;
@@ -81,6 +84,13 @@ public class Opvoering {
 		}
 	}
 
+	/**
+	 * Checks if prijs is a valid value
+	 * @param prijs BigDecimal
+	 * @return Returns true if prijs is greater than or equal to zero
+	 * @throws IllegalArgumentException If prijs is less than zero
+	 * @throws NullPointerException if prijs equals null
+	 */
 	public static boolean isPrijsValid(BigDecimal prijs) {
 		if (prijs != null) {
 			if (prijs.compareTo(BigDecimal.ZERO) >= 0) {
@@ -95,9 +105,16 @@ public class Opvoering {
 		}
 	}
 
+	/**
+	 * Checks if the date is valid
+	 * @param date Date
+	 * @return Returns true if date comes after midnight of the current date and is not null
+	 * @throws IllegalArgumentException If date is not current or future
+	 * @throws NullPointerException If date equals null
+	 */
 	public static boolean isDatumValid(Date date) {
 		if (date != null)  {
-			if (date.compareTo(Calendar.getInstance().getTime()) < 0) {
+			if (date.after(getTodaysDate())) {
 				return true;
 			}
 			else {
@@ -109,6 +126,12 @@ public class Opvoering {
 		}
 	}
 
+	/**
+	 * Checks if vrijeplaatsen is valid
+	 * @param vrijeplaatsen long
+	 * @return Returns true if vrijeplaatsen is larger than 0
+	 * @throws IllegalArgumentException If vrijeplaatsen <= 0
+	 */
 	public static boolean isVrijeplaatsenValid(long vrijeplaatsen) {
 		if (vrijeplaatsen > 0) {
 			return true;
@@ -116,5 +139,17 @@ public class Opvoering {
 		else {
 			throw new IllegalArgumentException();
 		}
+	}
+
+	/**
+	 * Returns a Date object of today's date
+	 * @return Returns today's date at precisely midnight
+	 */
+	private static Date getTodaysDate() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		return calendar.getTime();
 	}
 }
