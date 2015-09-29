@@ -20,7 +20,7 @@ public class Voorstelling implements Serializable {
 	private String titel;
 	private String uitvoerder;
 	@ManyToOne(optional=false)
-	@JoinColumn(name='genreid')
+	@JoinColumn(name="genreid")
 	private Genre genre;
 	
 	public String getVoorstelling(){
@@ -50,13 +50,4 @@ public class Voorstelling implements Serializable {
 	public void setUitvoerder(String uitvoerder) {
 		this.uitvoerder = uitvoerder;
 	}
-
-	public long getGenreid() {
-		return genreid;
-	}
-
-	public void setGenreid(long genreid) {
-		this.genreid = genreid;
-	}
-	
 }
