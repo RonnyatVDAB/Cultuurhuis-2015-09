@@ -8,8 +8,8 @@
 <body>
 	<header>
 		<h1 class="indexpagina">Het Cultuurhuis</h1>
-		<v:menu />	
+		<v:genremenu />	
 	</header>
-	
+	<v:footer />
 </body>
 </html>
