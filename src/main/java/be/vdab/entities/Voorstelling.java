@@ -23,6 +23,16 @@ public class Voorstelling implements Serializable {
 	@JoinColumn(name="genreid")
 	private Genre genre;
 	
+	public Voorstelling() {
+	}
+	public Voorstelling(String titel, String uitvoerder, Genre genre){
+		titelCtl(titel);
+		this.titel=titel;
+		uitvoerderCtl(uitvoerder);
+		this.uitvoerder=uitvoerder;
+		genreCtl(genre);
+		this.genre=genre;
+	}
 	public String getVoorstelling(){
 		return titel + " " + uitvoerder;
 	}
@@ -40,6 +50,7 @@ public class Voorstelling implements Serializable {
 	}
 
 	public void setTitel(String titel) {
+		titelCtl(titel);
 		this.titel = titel;
 	}
 
@@ -48,6 +59,22 @@ public class Voorstelling implements Serializable {
 	}
 
 	public void setUitvoerder(String uitvoerder) {
+		uitvoerderCtl(uitvoerder);
 		this.uitvoerder = uitvoerder;
+	}
+	public void titelCtl(String titel){
+		if ((titel==null) || (titel.isEmpty())) {
+			throw new IllegalArgumentException();
+		}
+	}
+	public void uitvoerderCtl(String uitvoerder){
+		if ((uitvoerder==null) || (uitvoerder.isEmpty())) {
+			throw new IllegalArgumentException();
+		}	
+	}
+	public void genreCtl(Genre genre){
+		if (genre==null) {
+			throw new IllegalArgumentException();
+		}
 	}
 }
