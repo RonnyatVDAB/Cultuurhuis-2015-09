@@ -1,8 +1,11 @@
 package be.vdab.entities;
 
+import sun.util.resources.cldr.aa.CalendarData_aa_ER;
+
 import javax.persistence.*;
 import javax.persistence.criteria.Fetch;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -13,7 +16,7 @@ import java.util.Date;
 public class Opvoering {
 	private static final long serialVersionUID = 1L;
 
-	public Opvoering() {}
+	protected Opvoering() {}
 
 	public Opvoering(Date datum, long vrijeplaatsen, BigDecimal prijs, Voorstelling voorstelling) {
 		setDatum(datum);
@@ -54,18 +57,64 @@ public class Opvoering {
 	}
 
 	private void setDatum(Date datum) {
-		this.datum = datum;
+		if (isDatumValid(datum)) this.datum = datum;
 	}
 
 	private void setVrijeplaatsen(long vrijeplaatsen) {
-		this.vrijeplaatsen = vrijeplaatsen;
+		if (isVrijeplaatsenValid(vrijeplaatsen)) this.vrijeplaatsen = vrijeplaatsen;
 	}
 
 	private void setPrijs(BigDecimal prijs) {
-		this.prijs = prijs;
+		if (isPrijsValid(prijs)) this.prijs = prijs;
 	}
 
 	private void setVoorstelling(Voorstelling voorstelling) {
-		this.voorstelling = voorstelling;
+		if (isVoorstellingValid(voorstelling)) this.voorstelling = voorstelling;
+	}
+
+	public static boolean isVoorstellingValid(Voorstelling voorstelling) {
+		if (voorstelling != null) {
+			return true;
+		}
+		else {
+			throw new NullPointerException();
+		}
+	}
+
+	public static boolean isPrijsValid(BigDecimal prijs) {
+		if (prijs != null) {
+			if (prijs.compareTo(BigDecimal.ZERO) >= 0) {
+				return true;
+			}
+			else {
+				throw new IllegalArgumentException();
+			}
+		}
+		else {
+			throw new NullPointerException();
+		}
+	}
+
+	public static boolean isDatumValid(Date date) {
+		if (date != null)  {
+			if (date.compareTo(Calendar.getInstance().getTime()) < 0) {
+				return true;
+			}
+			else {
+				throw new IllegalArgumentException();
+			}
+		}
+		else {
+			throw new NullPointerException();
+		}
+	}
+
+	public static boolean isVrijeplaatsenValid(long vrijeplaatsen) {
+		if (vrijeplaatsen > 0) {
+			return true;
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 }
