@@ -6,7 +6,6 @@ import javax.persistence.Persistence;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
-
 /**
  * @author guillaume.vandecasteele on 28/09/2015 at 14:28.
  */

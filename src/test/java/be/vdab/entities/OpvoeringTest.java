@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
 /**
  * @author guillaume.vandecasteele on 29/09/2015 at 12:11.
  */
@@ -66,5 +64,10 @@ public class OpvoeringTest {
 	@Test(expected = NullPointerException.class)
 	public void eenOpvoeringAanmakenMetEenVoorstellingGelijkAanNullMagNiet() {
 		Opvoering opvoering = new Opvoering(dateNow, correctVrijPlaatsen, correctePrijs, null);
+	}
+
+	@Test
+	public void eenOpvoeringMetCorrecteWaardenAanmakenLuktWel() {
+
 	}
 }
