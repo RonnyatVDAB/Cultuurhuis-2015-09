@@ -13,7 +13,7 @@ public class Genre implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private long id;
 	private String naam;
-	@OneToMany(mappedBy = "voorstellingen")
+	@OneToMany(mappedBy = "genre")
 	private Set<Voorstelling> voorstellingen;
 	
     public Genre() {}
