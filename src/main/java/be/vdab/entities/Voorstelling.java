@@ -2,6 +2,7 @@ package be.vdab.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name="voorstellingen")
@@ -12,9 +13,12 @@ public class Voorstelling implements Serializable {
 	private long id;
 	private String titel;
 	private String uitvoerder;
-	@ManyToOne(optional=false)
+	@ManyToOne(fetch = FetchType.LAZY, optional=false)
 	@JoinColumn(name="genreid")
 	private Genre genre;
+	@OneToMany(mappedBy = "voorstelling")
+	@OrderBy("datum")
+	private Set<Opvoering> opvoeringen;
 	
 	public Voorstelling() {
 	}
@@ -70,4 +74,18 @@ public class Voorstelling implements Serializable {
 			throw new IllegalArgumentException();
 		}
 	}
+	public Genre getGenre() {
+		return genre;
+	}
+	public void setGenre(Genre genre) {
+		this.genre = genre;
+	}
+	public Set<Opvoering> getOpvoeringen() {
+		return opvoeringen;
+	}
+	public void setOpvoeringen(Set<Opvoering> opvoeringen) {
+		this.opvoeringen = opvoeringen;
+	}
+	
+	
 }
