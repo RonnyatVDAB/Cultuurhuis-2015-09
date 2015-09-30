@@ -10,7 +10,7 @@
     </named-query>
     <named-query name="Opvoering.findEersteTienOpvoeringen">
         <query>
-            select o from Opvoering o order by datum group by o.voorstellingsid
+            select o from Opvoering o group by o.voorstelling order by o.datum
         </query>
     </named-query>
 </entity-mappings>
